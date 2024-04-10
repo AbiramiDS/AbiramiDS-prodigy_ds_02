@@ -1,0 +1,54 @@
+import pandas as pd
+
+# Load the dataset
+titanic_df = pd.read_csv('titanic.csv')
+
+# Display the first few rows of the dataset
+print(titanic_df.head())
+# Check for missing values
+print(titanic_df.isnull().sum())
+
+# Impute missing values for 'Age' and 'Fare' columns
+titanic_df['Age'].fillna(titanic_df['Age'].median(), inplace=True)
+titanic_df['Fare'].fillna(titanic_df['Fare'].median(), inplace=True)
+
+# Drop the 'Cabin' column as it has too many missing values
+titanic_df.drop('Cabin', axis=1, inplace=True)
+
+# Drop rows with missing values in 'Embarked' column
+titanic_df.dropna(subset=['Embarked'], inplace=True)
+
+# Check again for missing values
+print(titanic_df.isnull().sum())
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Distribution of survival
+sns.countplot(x='Survived', data=titanic_df)
+plt.title('Distribution of Survival')
+plt.show()
+
+# Survival by Pclass
+sns.countplot(x='Pclass', hue='Survived', data=titanic_df)
+plt.title('Survival by Pclass')
+plt.show()
+
+# Survival by Sex
+sns.countplot(x='Sex', hue='Survived', data=titanic_df)
+plt.title('Survival by Sex')
+plt.show()
+
+# Survival by Age
+sns.histplot(x='Age', hue='Survived', data=titanic_df, kde=True)
+plt.title('Survival by Age')
+plt.show()
+
+# Survival by Fare
+sns.histplot(x='Fare', hue='Survived', data=titanic_df, kde=True)
+plt.title('Survival by Fare')
+plt.show()
+
+# Survival by Embarked
+sns.countplot(x='Embarked', hue='Survived', data=titanic_df)
+plt.title('Survival by Embarked')
+plt.show()
